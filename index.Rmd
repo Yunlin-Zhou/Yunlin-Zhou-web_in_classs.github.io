@@ -1,0 +1,37 @@
+---
+title: "Making Websites in class"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+---
+## This is my website exercise!
+
+![](https://media.giphy.com/media/Ol2yHMEFJdYEo/giphy.gif)
+
+## Add links to your website
+
+```{r}
+# [text for link](address.of.link)
+
+# add a page: when add a page, make sure knit the rmd file into html first.
+
+# rmd_file_name.html
+```
+
+I can link to useful things like [google](https://www.google.com/) and [P8105](https://www.p8105.com/index.html)
+
+I can make an extra page on my site and link to that, Here's Jeff's website [index](index.html).
+
+## Add images
+
+```{r}
+# ![](path)
+# <img src="path" style="width:75%"> path and size
+```
+
+
+![](./nature.jpg)
+
+<img src="./nature.jpg" style="width:75%">

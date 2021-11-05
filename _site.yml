@@ -1,0 +1,16 @@
+name: "Yay internet!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "jeff"
+      href: jeff.html
+    - text: "plotly"
+      href: plotly.html
+    - icon: fas fa-envelope
+      href: mailto:<you@youremail.com>
+    - icon: fa-github fa-lg
+      href: https://github.com/Yunlin-Zhou/web_in_classs.github.io
+output: 
+  html_document:
+    theme: cosmo

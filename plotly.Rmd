@@ -1,0 +1,108 @@
+---
+title: "Plotly and flexdashboard"
+author: "Yunlin Zhou"
+date: "10/28/2021"
+---
+
+```{r}
+library(tidyverse)
+library(p8105.datasets)
+
+library(plotly)
+```
+
+let's look at the NYC airbnb data!
+
+```{r}
+data(nyc_airbnb)
+
+nyc_airbnb = 
+  nyc_airbnb %>% 
+  mutate(stars = review_scores_location / 2) %>%
+  select(
+    neighbourhood_group, neighbourhood, stars, price, room_type, lat, long) %>%
+  filter(
+    !is.na(stars), 
+    neighbourhood_group == "Manhattan",
+    room_type == "Entire home/apt",
+    price %in% 100:500)%>%
+  drop_na(stars)
+
+# drop_na Drop rows containing missing values
+```
+
+# make a scatterplot
+
+```{r}
+nyc_airbnb%>%
+  plot_ly(
+    x = ~lat, y = ~long, type = "scatter", mode = "markers",
+    color = ~price, alpha = 0.5
+  )
+```
+
+```{r}
+
+# str_c Join multiple strings into a single string.
+
+nyc_airbnb%>%
+  mutate(
+    text_label = str_c("Price: $", price, "\nStars: ", stars
+  ))%>%
+  plot_ly(
+    x = ~lat, y = ~long, type = "scatter", mode = "markers",
+    color = ~price, text = ~text_label, alpha = 0.5
+  )
+```
+
+# make a boxplot!
+
+```{r}
+nyc_airbnb %>% 
+  mutate(
+    neighbourhood = fct_reorder(neighbourhood, price)) %>% 
+  plot_ly(
+    y = ~price, 
+    color = ~neighbourhood, 
+    type = "box", 
+    colors = "viridis")
+```
+
+# here comes a bar chart
+
+```{r}
+nyc_airbnb %>% 
+  count(neighbourhood) %>% 
+  mutate(
+    neighbourhood = fct_reorder(neighbourhood, n)) %>% 
+  plot_ly(
+    x = ~neighbourhood, 
+    y = ~n, 
+    color = ~neighbourhood, 
+    type = "bar", 
+    colors = "viridis")
+```
+
+# gglpotly
+
+```{r}
+gg_lat_long = 
+  nyc_airbnb %>%
+  ggplot(aes(x = lat, y = long, color = price)) +
+  geom_point(alpha = 0.25) +
+  coord_cartesian()
+
+ggplotly(gg_lat_long)
+```
+
+```{r}
+box_ggplot = 
+  nyc_airbnb %>% 
+  mutate(neighbourhood = fct_reorder(neighbourhood, price)) %>% 
+  ggplot(aes(x = neighbourhood, y = price, fill = neighbourhood)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplotly(box_ggplot)
+```
+
